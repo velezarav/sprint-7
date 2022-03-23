@@ -24,14 +24,11 @@ function App() {
     }))
   }
 
-  const calculateWP = quote.wPQuantity > 1 || quote.wPLanguages > 1 ? quote.wPQuantity * quote.wPLanguages * 30 : 0;
-  quote.total = (quote.webPage ? (500 + calculateWP) : 0) + (quote.consultingSEO ? 300 : 0) + (quote.adsCampaign ? 200 : 0);
-  
-  function setQuantity(q) {
-    setQuote(prevquote => ({
-      ...prevquote,
-      wPQuantity: q
-    }))
+  //const calculateWP = quote.wPQuantity > 1 || quote.wPLanguages > 1 ? quote.wPQuantity * quote.wPLanguages * 30 : 0;
+  //quote.total = (quote.webPage ? (500 + calculateWP) : 0) + (quote.consultingSEO ? 300 : 0) + (quote.adsCampaign ? 200 : 0);
+
+  function changeQuantity(newValue) {
+    setQuote(item => ({...item, wPQuantity: newValue}))
   }
 
   return (
@@ -46,7 +43,7 @@ function App() {
         />
         <label htmlFor='webPage'> Página web - 500€ </label>
         <br/>
-        {quote.webPage && <Panel quantity={quote.wPQuantity} languages={quote.wPLanguages} handleQuantity={setQuantity} />}
+        {quote.webPage && <Panel quantity={quote.wPQuantity} languages={quote.wPLanguages} handleQuantity={changeQuantity} />}
         <input 
           type ="checkbox"
           id="consultingSEO"
