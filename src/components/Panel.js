@@ -1,7 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function Panel() {
+export default function Panel(props) {
+
+    const [languages, setLanguages] = useState(props.languages);
+    const [quantity, setQuantity] = useState(props.quantity);
+
+    function subQuantity() {
+        setQuantity(prevQuantity => prevQuantity > 1 ? prevQuantity - 1 : 1)
+    }
+
+    function addQuantity() {
+        setQuantity(prevQuantity => prevQuantity + 1)
+    }
+
+    console.log(quantity)
+
     return(
-    <h1>hola</h1>
+    <div>
+        <p>Cantidad de páginas</p>
+        <button onClick={subQuantity}>-</button>
+        <input  value={quantity} onChange={() => props.handleQuantity(quantity)} />
+        <button onClick={addQuantity}>+</button>
+        <br/>
+        <p>Idiomas</p>
+        <button>-</button>
+        <input value={languages}/>
+        <button>+</button>
+    </div>
     )
 }
