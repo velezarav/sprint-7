@@ -1,6 +1,6 @@
 import './App.css';
-import {useState} from 'react';
-import Panel from './components/Panel'
+import {useState, useEffect} from 'react';
+// import Panel from './components/Panel'
 import './App.css'
 
 function App() {
@@ -24,12 +24,91 @@ function App() {
     }))
   }
 
-  //const calculateWP = quote.wPQuantity > 1 || quote.wPLanguages > 1 ? quote.wPQuantity * quote.wPLanguages * 30 : 0;
-  //quote.total = (quote.webPage ? (500 + calculateWP) : 0) + (quote.consultingSEO ? 300 : 0) + (quote.adsCampaign ? 200 : 0);
+  useEffect(() => {
+    const data = localStorage.getItem('quote');
+    if (data) {
+      setQuote(JSON.parse(data))
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('quote', JSON.stringify(quote))
+  });
+
+  const calculateWP = quote.wPQuantity > 1 || quote.wPLanguages > 1 ? quote.wPQuantity * quote.wPLanguages * 30 : 0;
+  quote.total = (quote.webPage ? (500 + calculateWP) : 0) + (quote.consultingSEO ? 300 : 0) + (quote.adsCampaign ? 200 : 0);
 
   function changeQuantity(newValue) {
     setQuote(item => ({...item, wPQuantity: newValue}))
   }
+
+  function Panel(props) {
+    function subQuantity() {
+      setQuote(prevQuote => ({
+        ...prevQuote,
+        wPQuantity: prevQuote.wPQuantity > 1 ? prevQuote.wPQuantity - 1 : 1
+      }))
+    }
+
+    function addQuantity() {
+      setQuote(prevQuote => ({
+        ...prevQuote,
+        wPQuantity: prevQuote.wPQuantity + 1
+      }))
+    }
+
+    function setQuantity(e) {
+      setQuote(prevQuote => ({
+        ...prevQuote,
+        [e.target.name]: parseInt(e.target.value)
+      }))
+    }
+
+    function subLanguages() {
+      setQuote(prevQuote => ({
+        ...prevQuote,
+        wPLanguages: prevQuote.wPLanguages > 1 ? prevQuote.wPLanguages - 1 : 1
+      }))
+    }
+
+    function addLanguages() {
+      setQuote(prevQuote => ({
+        ...prevQuote,
+        wPLanguages: prevQuote.wPLanguages + 1
+      }))
+    }
+
+    function setLanguages(e) {
+      setQuote(prevQuote => ({
+        ...prevQuote,
+        [e.target.name]: parseInt(e.target.value)
+      }))
+    }
+
+    return(
+    <div>
+        <p>Cantidad de páginas</p>
+        <button onClick={subQuantity}>-</button>
+        <input  type="number" 
+                onChange={setQuantity}
+                name="wPQuantity"
+                value={quote.wPQuantity}
+        />
+        <button onClick={addQuantity}>+</button>
+        <br/>
+        <p>Idiomas</p>
+        <button onClick={subLanguages}>-</button>
+        <input  type="text" 
+                onChange={setLanguages}
+                name="wPLanguages"
+                value={quote.wPLanguages}
+        />
+        <button onClick={addLanguages}>+</button>
+    </div>
+    )
+}
+
+console.log(quote)
 
   return (
     <div className='form-container'>
@@ -43,7 +122,7 @@ function App() {
         />
         <label htmlFor='webPage'> Página web - 500€ </label>
         <br/>
-        {quote.webPage && <Panel quantity={quote.wPQuantity} languages={quote.wPLanguages} handleQuantity={changeQuantity} />}
+        {quote.webPage && <Panel />}
         <input 
           type ="checkbox"
           id="consultingSEO"

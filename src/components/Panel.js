@@ -10,7 +10,13 @@ export default function Panel(props) {
     }
 
     function addQuantity() {
+        console.log('sumando')
         setQuantity(prevQuantity => prevQuantity + 1)
+    }
+
+    function setQuantity(e) {
+        setQuantity(e.target.value)
+        props.handleQuantity(quantity)
     }
 
     console.log(quantity)
@@ -19,7 +25,7 @@ export default function Panel(props) {
     <div>
         <p>Cantidad de páginas</p>
         <button onClick={subQuantity}>-</button>
-        <input  value={quantity} onChange={() => props.handleQuantity(quantity)} />
+        <input  value={quantity} onChange={handleChange} />
         <button onClick={addQuantity}>+</button>
         <br/>
         <p>Idiomas</p>
