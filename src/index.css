@@ -10,6 +10,18 @@ body {
   justify-content: center;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  /*background-image: url(./img/fondo-mar.jpg);
+  background-repeat: no-repeat;
+  background-size:cover;
+  background-position: center;*/
+  height: 100%;
+  font-family: 'Josefin Sans', sans-serif;
+  color: #DFE1E1;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

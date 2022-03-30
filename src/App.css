@@ -1,6 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+
 body {
   margin: 0;
   padding: 0;
+  /* background-image: url(./img/fondo-mar.jpg);
+  background-repeat: no-repeat;
+  background-size:cover;
+  background-position: center;*/
+  height: 100%;
+  font-family: 'Josefin Sans', sans-serif;
+  color: #DFE1E1;
 }
 
 .form-container {
@@ -8,8 +17,41 @@ body {
   justify-content: center;
   align-items: center;
   margin: 5rem auto;
+  background-color: #A5B3C2;
+  padding: 3rem;
+  border-radius: 15px;
 }
+
+
 
 .form {
   align-self: center;
+}
+
+.form input[type="checkbox"] {
+  appearance: none;
+  height: .8rem;
+  width: .8rem;
+  background-color: white;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: .8rem .8rem 0 0;
+}
+
+.form input[type="checkbox"]:after {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 900;
+  content: '\2714';
+  font-size: .5rem;
+  color: white;
+  display: none;
+  padding-left: .2rem;
+}
+
+.form input[type="checkbox"]:checked {
+  background-color: #C6CED6;
+}
+
+.form input[type="checkbox"]:checked:after {
+  display: block;
 }
