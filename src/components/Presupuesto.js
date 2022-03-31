@@ -1,6 +1,6 @@
-import './App.css';
+import '../App.css';
 import {useState, useEffect} from 'react';
-
+import Panel from './Panel'
 export default function Presupuesto() {
   const [quote, setQuote] = useState({
     id: 0,
@@ -13,6 +13,16 @@ export default function Presupuesto() {
     total: 0
   })
   
+    useEffect(() => {
+    const data = localStorage.getItem('quote');
+    if (data) {
+      setQuote(JSON.parse(data))
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('quote', JSON.stringify(quote))
+  }); 
   function handleChange(e){
     const {name, value, checked, type} = e.target;
 
@@ -22,85 +32,17 @@ export default function Presupuesto() {
     }))
   }
 
-  useEffect(() => {
-    const data = localStorage.getItem('quote');
-    if (data) {
-      setQuote(JSON.parse(data))
-    }
-  }, []);
+  function handleChangeQuantity(quantity) {
+    setQuote(prevQuote => ({
+      ...prevQuote,
+      wPQuantity: quantity
+    }))
+  }
 
-  useEffect(() => {
-    localStorage.setItem('quote', JSON.stringify(quote))
-  });
+
 
   const calculateWP = quote.wPQuantity > 1 || quote.wPLanguages > 1 ? quote.wPQuantity * quote.wPLanguages * 30 : 0;
   quote.total = (quote.webPage ? (500 + calculateWP) : 0) + (quote.consultingSEO ? 300 : 0) + (quote.adsCampaign ? 200 : 0);
-
-  function Panel(props) {
-    function subQuantity() {
-      setQuote(prevQuote => ({
-        ...prevQuote,
-        wPQuantity: prevQuote.wPQuantity > 1 ? prevQuote.wPQuantity - 1 : 1
-      }))
-    }
-
-    function addQuantity() {
-      setQuote(prevQuote => ({
-        ...prevQuote,
-        wPQuantity: prevQuote.wPQuantity + 1
-      }))
-    }
-
-    function setQuantity(e) {
-      setQuote(prevQuote => ({
-        ...prevQuote,
-        [e.target.name]: parseInt(e.target.value)
-      }))
-    }
-
-    function subLanguages() {
-      setQuote(prevQuote => ({
-        ...prevQuote,
-        wPLanguages: prevQuote.wPLanguages > 1 ? prevQuote.wPLanguages - 1 : 1
-      }))
-    }
-
-    function addLanguages() {
-      setQuote(prevQuote => ({
-        ...prevQuote,
-        wPLanguages: prevQuote.wPLanguages + 1
-      }))
-    }
-
-    function setLanguages(e) {
-      setQuote(prevQuote => ({
-        ...prevQuote,
-        [e.target.name]: parseInt(e.target.value)
-      }))
-    }
-
-    return(
-    <div>
-        <p>Cantidad de páginas</p>
-        <button onClick={subQuantity}>-</button>
-        <input  type="number" 
-                onChange={setQuantity}
-                name="wPQuantity"
-                value={quote.wPQuantity}
-        />
-        <button onClick={addQuantity}>+</button>
-        <br/>
-        <p>Idiomas</p>
-        <button onClick={subLanguages}>-</button>
-        <input  type="text" 
-                onChange={setLanguages}
-                name="wPLanguages"
-                value={quote.wPLanguages}
-        />
-        <button onClick={addLanguages}>+</button>
-    </div>
-    )
-}
 
 console.log(quote)
 
@@ -111,17 +53,17 @@ console.log(quote)
           type ="checkbox"
           id="webPage"
           onChange={handleChange}
-          checked={quote.webPage}
+          defaultChecked={quote.webPage}
           name="webPage"
         />
         <label htmlFor='webPage'> Página web - 500€ </label>
         <br/>
-        {quote.webPage && <Panel />}
+        {quote.webPage && <Panel languages={quote.wPLanguages} quantity={quote.wPQuantity} handleChangeQuantity={handleChangeQuantity} />}
         <input 
           type ="checkbox"
           id="consultingSEO"
           onChange={handleChange}
-          checked={quote.consultingSEO}
+          defaultChecked={quote.consultingSEO}
           name="consultingSEO"
         />
         <label htmlFor='consultingSEO'> Consultoría SEO - 300€ </label>
@@ -130,7 +72,7 @@ console.log(quote)
           type ="checkbox"
           id="adsCampaign"
           onChange={handleChange}
-          checked={quote.adsCampaign}
+          defaultChecked={quote.adsCampaign}
           name="adsCampaign"
         />
         <label htmlFor='adsCampaign'> Campaña Google Ads - 200€ </label>
@@ -144,11 +86,11 @@ console.log(quote)
           placeholder='Nombre y Apellido'
           onChange={handleChange}
           name='client'
-          value={quote.client}
+          defaultValue={quote.client}
         />
         <br />
         <button>Guardar presupuesto</button>
       </form>
-    </div>
-  );
+  </div>
+  )
 }
