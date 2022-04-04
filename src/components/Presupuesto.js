@@ -1,11 +1,12 @@
-import '../App.css';
+import '../css/App.css';
 import {useState, useEffect} from 'react';
 import Panel from './Panel'
+
 export default function Presupuesto() {
   const [quote, setQuote] = useState({
     id: 0,
     client: "",
-    webPage: true,
+    webPage: false,
     wPLanguages: 1,
     wPQuantity: 1,
     consultingSEO: false,
@@ -23,6 +24,8 @@ export default function Presupuesto() {
   useEffect(() => {
     localStorage.setItem('quote', JSON.stringify(quote))
   }); 
+
+  console.log(Date())
   function handleChange(e){
     const {name, value, checked, type} = e.target;
 
@@ -39,10 +42,50 @@ export default function Presupuesto() {
     }))
   }
 
-
-
   const calculateWP = quote.wPQuantity > 1 || quote.wPLanguages > 1 ? quote.wPQuantity * quote.wPLanguages * 30 : 0;
   quote.total = (quote.webPage ? (500 + calculateWP) : 0) + (quote.consultingSEO ? 300 : 0) + (quote.adsCampaign ? 200 : 0);
+
+  function subQuantity() {
+    setQuote(prevquote => ({
+      ...prevquote,
+      wPQuantity: prevquote.wPQuantity > 1 ? prevquote.wPQuantity - 1 : 1
+    }))
+  }
+
+  function addQuantity() {
+    setQuote(prevquote => ({
+      ...prevquote,
+      wPQuantity: prevquote.wPQuantity + 1
+    }))
+  }
+
+  function setQuantityInput(e) {
+    setQuote(prevquote => ({
+      ...prevquote,
+      wPQuantity: parseInt(e.target.value)
+    }))
+  }
+
+  function subLanguages() {
+    setQuote(prevquote => ({
+      ...prevquote,
+      wPLanguages: prevquote.wPLanguages > 1 ? prevquote.wPLanguages - 1 : 1
+    }))
+  }
+
+  function addLanguages() {
+    setQuote(prevquote => ({
+      ...prevquote,
+      wPLanguages: prevquote.wPLanguages + 1
+    }))
+  }
+
+  function setLanguagesInput(e) {
+    setQuote(prevquote => ({
+      ...prevquote,
+      wPLanguages: parseInt(e.target.value)
+    }))
+}
 
 console.log(quote)
 
@@ -58,7 +101,15 @@ console.log(quote)
         />
         <label htmlFor='webPage'> Página web - 500€ </label>
         <br/>
-        {quote.webPage && <Panel languages={quote.wPLanguages} quantity={quote.wPQuantity} handleChangeQuantity={handleChangeQuantity} />}
+        {quote.webPage && <Panel 
+          subQuantity={subQuantity}
+          addQuantity={addQuantity}
+          setQuantityInput={setQuantityInput}
+          subLanguages={subLanguages}
+          addLanguages={addLanguages}
+          setLanguagesInput={setLanguagesInput}
+          quote={quote}
+        />}
         <input 
           type ="checkbox"
           id="consultingSEO"

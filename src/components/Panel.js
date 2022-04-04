@@ -1,57 +1,33 @@
-import React, { useState } from "react";
+import { useModal } from "../hooks/useModal";
+import Modal from './Modal'
 
 export default function Panel(props) {
-
-    const [languages, setLanguages] = useState(props.languages);
-    const [quantity, setQuantity] = useState(props.quantity);
-
-    function subQuantity() {
-        setQuantity(prevQuantity =>  prevQuantity > 1 ? prevQuantity - 1 : 1)
-        props.handleChangeQuantity(quantity)
-      }
-  
-      function addQuantity() {
-        setQuantity(prevQuantity =>  prevQuantity + 1)
-        props.handleChangeQuantity(quantity)
-      }
-  
-      function setQuantityInput(e) {
-        setQuantity(prevQuantity => prevQuantity = parseInt(e.target.value))
-        props.handleChangeQuantity(quantity)
-      }
-  
-      function subLanguages() {
-        setLanguages(prevLanguages => prevLanguages > 1 ? prevLanguages - 1 : 1)
-      }
-  
-      function addLanguages() {
-        setLanguages(prevLanguages => prevLanguages + 1)
-      }
-  
-      function setLanguagesInput(e) {
-        e.preventDefault();
-        setLanguages(prevLanguages => prevLanguages = parseInt(e.target.value))
-    }
+  const [isOpenModalQuantity, openModalQuantity, closeModalQuantity] = useModal(false);
+  const [isOpenModalLanguage, openModalLanguage, closeModalLanguage] = useModal(true);
 
     return(
     <div>
         <p>Cantidad de páginas</p>
-        <button onClick={subQuantity}>-</button>
+        <button onClick={props.subQuantity}>-</button>
         <input  type="text" 
-                onChange={setQuantityInput}
-                name="quantity"
-                defaultValue={quantity}
+                onChange={props.setQuantityInput}
+                name="wPQuantity"
+                value={props.quote.wPQuantity}
         />
-        <button onClick={addQuantity}>+</button>
+        <button onClick={props.addQuantity}>+</button>
+        <button onClick={openModalQuantity}>(i)</button>
+        <Modal isOpen={isOpenModalQuantity} closeModal={closeModalQuantity}>El sitio tendrá {props.quote.wPQuantity == 1 ? "1 página." : `${props.quote.wPQuantity} páginas.`}</Modal>
         <br/>
         <p>Idiomas</p>
-        <button onClick={subLanguages}>-</button>
+        <button onClick={props.subLanguages}>-</button>
         <input  type="text" 
-                onChange={setLanguagesInput}
-                name="languages"
-                defaultValue={languages}
+                onChange={props.setLanguagesInput}
+                name="wPLanguages"
+                value={props.quote.wPLanguages}
         />
-        <button onClick={addLanguages}>+</button>
+        <button onClick={props.addLanguages}>+</button>
+        <button onClick={openModalLanguage}>(i)</button>
+        <Modal isOpen={isOpenModalLanguage} closeModal={closeModalLanguage}>El sitio tendrá {props.quote.wPLanguages == 1 ? "1 idioma." : `${props.quote.wPLanguages} idiomas.`}</Modal>
     </div>
     )
 }
