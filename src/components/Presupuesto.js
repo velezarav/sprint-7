@@ -1,8 +1,11 @@
 import '../css/App.css';
 import {useState, useEffect} from 'react';
 import Panel from './Panel'
+import Listado from './Listado';
 
 export default function Presupuesto() {
+
+  // STATES
   const [quote, setQuote] = useState({
     id: 0,
     client: "",
@@ -13,7 +16,10 @@ export default function Presupuesto() {
     adsCampaign: false,
     total: 0
   })
+
+  const [listado, setListado] = useState([]);
   
+  // USEEFFECT - LOCAL STORAGE
     useEffect(() => {
     const data = localStorage.getItem('quote');
     if (data) {
@@ -25,7 +31,7 @@ export default function Presupuesto() {
     localStorage.setItem('quote', JSON.stringify(quote))
   }); 
 
-  console.log(Date())
+  // SELECCIONAR SERVICIOS
   function handleChange(e){
     const {name, value, checked, type} = e.target;
 
@@ -35,16 +41,11 @@ export default function Presupuesto() {
     }))
   }
 
-  function handleChangeQuantity(quantity) {
-    setQuote(prevQuote => ({
-      ...prevQuote,
-      wPQuantity: quantity
-    }))
-  }
-
+  //CALCULAR TOTALES
   const calculateWP = quote.wPQuantity > 1 || quote.wPLanguages > 1 ? quote.wPQuantity * quote.wPLanguages * 30 : 0;
   quote.total = (quote.webPage ? (500 + calculateWP) : 0) + (quote.consultingSEO ? 300 : 0) + (quote.adsCampaign ? 200 : 0);
 
+  // SELECCIONAR CANTIDAD E IDIOMAS
   function subQuantity() {
     setQuote(prevquote => ({
       ...prevquote,
@@ -87,61 +88,94 @@ export default function Presupuesto() {
     }))
 }
 
+// GUARDAR PRESUPUESTO
+function submitQuote() {
+  const date = new Date();
+  const numero = listado.length;
+  setQuote(prevQuote => ({
+    ...prevQuote,
+    id: listado.length + 1,
+    date: numero
+  }))
+
+  setListado(prevListado => [...prevListado, quote])
+
+  setQuote({
+    id: 0,
+    client: "",
+    webPage: false,
+    wPLanguages: 1,
+    wPQuantity: 1,
+    consultingSEO: false,
+    adsCampaign: false,
+    total: 0
+  })
+
+}
+
 console.log(quote)
+console.log(listado)
 
   return (
-    <div className='form-container'>
-      <form className="form">
-        <input 
-          type ="checkbox"
-          id="webPage"
-          onChange={handleChange}
-          defaultChecked={quote.webPage}
-          name="webPage"
-        />
-        <label htmlFor='webPage'> Página web - 500€ </label>
-        <br/>
-        {quote.webPage && <Panel 
-          subQuantity={subQuantity}
-          addQuantity={addQuantity}
-          setQuantityInput={setQuantityInput}
-          subLanguages={subLanguages}
-          addLanguages={addLanguages}
-          setLanguagesInput={setLanguagesInput}
-          quote={quote}
-        />}
-        <input 
-          type ="checkbox"
-          id="consultingSEO"
-          onChange={handleChange}
-          defaultChecked={quote.consultingSEO}
-          name="consultingSEO"
-        />
-        <label htmlFor='consultingSEO'> Consultoría SEO - 300€ </label>
-        <br/>
-        <input 
-          type ="checkbox"
-          id="adsCampaign"
-          onChange={handleChange}
-          defaultChecked={quote.adsCampaign}
-          name="adsCampaign"
-        />
-        <label htmlFor='adsCampaign'> Campaña Google Ads - 200€ </label>
-        <h5>Precio total: {quote.total}€</h5>
-        
-        <label>¿Quieres que guardemos tu presupuesto?</label>
-        <br />
-        <br />
-        <input 
-          type="text"
-          placeholder='Nombre y Apellido'
-          onChange={handleChange}
-          name='client'
-          defaultValue={quote.client}
-        />
-        <br />
-        <button>Guardar presupuesto</button>
-      </form>
-  </div>
+    <>
+      <div className='presupuesto'>
+        <div className='form-container'>
+        <form className="form">
+          <input 
+            type ="checkbox"
+            id="webPage"
+            onChange={handleChange}
+            defaultChecked={quote.webPage}
+            name="webPage"
+          />
+          <label htmlFor='webPage'> Página web - 500€ </label>
+          <br/>
+          {quote.webPage && <Panel 
+            subQuantity={subQuantity}
+            addQuantity={addQuantity}
+            setQuantityInput={setQuantityInput}
+            subLanguages={subLanguages}
+            addLanguages={addLanguages}
+            setLanguagesInput={setLanguagesInput}
+            quote={quote}
+          />}
+          <input 
+            type ="checkbox"
+            id="consultingSEO"
+            onChange={handleChange}
+            defaultChecked={quote.consultingSEO}
+            name="consultingSEO"
+          />
+          <label htmlFor='consultingSEO'> Consultoría SEO - 300€ </label>
+          <br/>
+          <input 
+            type ="checkbox"
+            id="adsCampaign"
+            onChange={handleChange}
+            defaultChecked={quote.adsCampaign}
+            name="adsCampaign"
+          />
+          <label htmlFor='adsCampaign'> Campaña Google Ads - 200€ </label>
+          <h5>Precio total: {quote.total}€</h5>
+          
+          <label>¿Quieres que guardemos tu presupuesto?</label>
+          <br />
+          <br />
+          <input 
+            type="text"
+            placeholder='Nombre y Apellido'
+            onChange={handleChange}
+            name='client'
+            defaultValue={quote.client}
+          />
+          <br />
+        </form>
+        <button onClick={submitQuote}>Guardar presupuesto</button>
+    </div>
+      </div>
+     
+    </>
+    
+    
   )
 }

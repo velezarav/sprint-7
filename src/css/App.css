@@ -1,18 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
 
-body {
-  margin: 0;
-  padding: 0;
-  /* background-image: url(./img/fondo-mar.jpg);
-  background-repeat: no-repeat;
-  background-size:cover;
-  background-position: center;*/
-  height: 100%;
-  font-family: 'Josefin Sans', sans-serif;
-  color: #DFE1E1;
+.presupuesto {
+  width: 100%;
 }
 
 .form-container {
+  width: 60%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,3 +46,6 @@ body {
 .form input[type="checkbox"]:checked:after {
   display: block;
 }
+
+
+
