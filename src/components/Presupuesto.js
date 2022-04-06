@@ -19,8 +19,8 @@ export default function Presupuesto() {
 
   const [listado, setListado] = useState([]);
   
-  // USEEFFECT - LOCAL STORAGE
-   /* useEffect(() => {
+//USEEFFECT - LOCAL STORAGE
+ /* useEffect(() => {
     const data = localStorage.getItem('quote');
     if (data) {
       setQuote(JSON.parse(data))
@@ -29,24 +29,30 @@ export default function Presupuesto() {
 
   useEffect(() => {
     localStorage.setItem('quote', JSON.stringify(quote))
-  }); */
+  });  */
 
   // SELECCIONAR SERVICIOS
   function handleChange(e){
     const {name, value, checked, type} = e.target;
-
     setQuote(prevquote => ({
       ...prevquote,
       [name]: type === "checkbox" ? checked : value
     }))
+    totales()
+
   }
 
   //CALCULAR TOTALES
 
   function totales(){ 
+   /*  const webPageTotal = quote.webPage ? 500 + (quote.wPQuantity > 1 || quote.wPLanguages > 1 ? quote.wPQuantity * quote.wPLanguages * 30 : 0) : 0;
+    const SEOTotal = quote.consultingSEO ? 300 : 0;
+    const adsTotal = quote.adsCampaign ? 200 : 0;
+    const totalSum = w */
+
     setQuote(prevQuote => ({
       ...prevQuote,
-      total: (prevQuote.webPage ? (500 + (prevQuote.wPQuantity > 1 || prevQuote.wPLanguages > 1 ? prevQuote.wPQuantity * prevQuote.wPLanguages * 30 : 0)) : 0) + (prevQuote.consultingSEO ? 300 : 0) + (prevQuote.adsCampaign ? 200 : 0)
+      total: (prevQuote.consultingSEO ? 300 : 0) + (prevQuote.adsCampaign ? 200 : 0) + (prevQuote.webPage ? 500 + (prevQuote.wPQuantity > 1 || prevQuote.wPLanguages > 1 ? prevQuote.wPQuantity * prevQuote.wPLanguages * 30 : 0) : 0)
     }))
   }
   
@@ -54,7 +60,7 @@ export default function Presupuesto() {
   // SELECCIONAR CANTIDAD E IDIOMAS
   function changeQuote(type, id) {
     const newQuote = {...quote}
-    newQuote[type] = quantity;
+    newQuote[type] = id;
   }
 
   function subQuantity() {
@@ -106,15 +112,18 @@ export default function Presupuesto() {
 }
 
 // GUARDAR PRESUPUESTO
-function submitQuote() {
+function submitQuote(e) {
+  e.preventDefault();
   const date = new Date();
-  const numero = listado.length;
-  setQuote(prevQuote => ({
-    ...prevQuote,
-    id: listado.length + 1,
-    date: numero
-  }))
+  const numero = listado.length + 1;
 
+  setQuote(prevquote => ({
+    ...prevquote,
+    id: 9,
+    date: date
+  }))
+  
+console.log('this',quote)
   setListado(prevListado => [...prevListado, quote])
 
   setQuote({
@@ -127,14 +136,13 @@ function submitQuote() {
     adsCampaign: false,
     total: 0
   })
-
 }
 
 console.log(quote)
 console.log(listado)
 
   return (
-    <>
+    <div className='container'>
       <div className='presupuesto'>
         <div className='form-container'>
         <div className="form">
@@ -173,7 +181,7 @@ console.log(listado)
             name="adsCampaign"
           />
           <label htmlFor='adsCampaign'> Campaña Google Ads - 200€ </label>
-          <h5>Precio total: {quote.total}€</h5>
+          <h3>Precio total: {quote.total}€</h3>
           
           <label>¿Quieres que guardemos tu presupuesto?</label>
           <br />
@@ -184,15 +192,16 @@ console.log(listado)
             onChange={handleChange}
             name='client'
             defaultValue={quote.client}
+            className='client-name'
           />
           <br />
           <br />
-        <button onClick={submitQuote}>Guardar presupuesto</button>
+        <button className='submit-button' onClick={submitQuote}>GUARDAR</button>
         </div>
     </div>
       </div>
-     
-    </>
+      <Listado />
+    </div>
     
     
   )
