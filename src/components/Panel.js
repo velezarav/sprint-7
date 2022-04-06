@@ -12,7 +12,7 @@ export default function Panel(props) {
 	<input  type="text" 
 		onChange={props.setQuantityInput}
 		name="wPQuantity"
-		value={props.quote.wPQuantity}
+		defaultValue={props.quote.wPQuantity}
 	/>
 	<button onClick={props.addQuantity}>+</button>
 	<button onClick={openModalQuantity}>(i)</button>
@@ -23,7 +23,7 @@ export default function Panel(props) {
 	<input  type="text" 
 		onChange={props.setLanguagesInput}
 		name="wPLanguages"
-		value={props.quote.wPLanguages}
+		defaultValue={props.quote.wPLanguages}
 	/>
 	<button onClick={props.addLanguages}>+</button>
 	<button onClick={openModalLanguage}>(i)</button>
