@@ -20,7 +20,7 @@ export default function Presupuesto() {
   const [listado, setListado] = useState([]);
   
   // USEEFFECT - LOCAL STORAGE
-    useEffect(() => {
+   /* useEffect(() => {
     const data = localStorage.getItem('quote');
     if (data) {
       setQuote(JSON.parse(data))
@@ -29,7 +29,7 @@ export default function Presupuesto() {
 
   useEffect(() => {
     localStorage.setItem('quote', JSON.stringify(quote))
-  }); 
+  }); */
 
   // SELECCIONAR SERVICIOS
   function handleChange(e){
@@ -42,15 +42,27 @@ export default function Presupuesto() {
   }
 
   //CALCULAR TOTALES
-  const calculateWP = quote.wPQuantity > 1 || quote.wPLanguages > 1 ? quote.wPQuantity * quote.wPLanguages * 30 : 0;
-  quote.total = (quote.webPage ? (500 + calculateWP) : 0) + (quote.consultingSEO ? 300 : 0) + (quote.adsCampaign ? 200 : 0);
+
+  function totales(){ 
+    setQuote(prevQuote => ({
+      ...prevQuote,
+      total: (prevQuote.webPage ? (500 + (prevQuote.wPQuantity > 1 || prevQuote.wPLanguages > 1 ? prevQuote.wPQuantity * prevQuote.wPLanguages * 30 : 0)) : 0) + (prevQuote.consultingSEO ? 300 : 0) + (prevQuote.adsCampaign ? 200 : 0)
+    }))
+  }
+  
 
   // SELECCIONAR CANTIDAD E IDIOMAS
+  function changeQuote(type, id) {
+    const newQuote = {...quote}
+    newQuote[type] = quantity;
+  }
+
   function subQuantity() {
     setQuote(prevquote => ({
       ...prevquote,
       wPQuantity: prevquote.wPQuantity > 1 ? prevquote.wPQuantity - 1 : 1
     }))
+    totales();
   }
 
   function addQuantity() {
@@ -58,6 +70,7 @@ export default function Presupuesto() {
       ...prevquote,
       wPQuantity: prevquote.wPQuantity + 1
     }))
+    totales();
   }
 
   function setQuantityInput(e) {
@@ -65,6 +78,7 @@ export default function Presupuesto() {
       ...prevquote,
       wPQuantity: parseInt(e.target.value)
     }))
+    totales();
   }
 
   function subLanguages() {
@@ -72,6 +86,7 @@ export default function Presupuesto() {
       ...prevquote,
       wPLanguages: prevquote.wPLanguages > 1 ? prevquote.wPLanguages - 1 : 1
     }))
+    totales();
   }
 
   function addLanguages() {
@@ -79,6 +94,7 @@ export default function Presupuesto() {
       ...prevquote,
       wPLanguages: prevquote.wPLanguages + 1
     }))
+    totales();
   }
 
   function setLanguagesInput(e) {
@@ -86,6 +102,7 @@ export default function Presupuesto() {
       ...prevquote,
       wPLanguages: parseInt(e.target.value)
     }))
+    totales();
 }
 
 // GUARDAR PRESUPUESTO
@@ -120,7 +137,7 @@ console.log(listado)
     <>
       <div className='presupuesto'>
         <div className='form-container'>
-        <form className="form">
+        <div className="form">
           <input 
             type ="checkbox"
             id="webPage"
@@ -169,8 +186,9 @@ console.log(listado)
             defaultValue={quote.client}
           />
           <br />
-        </form>
+          <br />
         <button onClick={submitQuote}>Guardar presupuesto</button>
+        </div>
     </div>
       </div>
      
