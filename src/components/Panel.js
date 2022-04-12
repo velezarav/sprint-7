@@ -10,7 +10,7 @@ export default function Panel(props) {
 	<div className="botonera-panel">
 	<p>Cantidad de páginas<button className='modal-button' onClick={openModalQuantity}>!</button></p>
 	<Modal isOpen={isOpenModalQuantity} closeModal={closeModalQuantity}>El sitio tendrá {props.quote.wPQuantity == 1 ? "1 página." : `${props.quote.wPQuantity} páginas.`}</Modal>
-	<button onClick={props.subQuantity}>-</button>
+	<button onClick={props.subQuantity}>&minus;</button>
 	<input  type="text" 
 		onChange={props.setQuantityInput}
 		name="wPQuantity"
@@ -20,7 +20,7 @@ export default function Panel(props) {
 	
 	<br/>
 	<p>Idiomas<button className='modal-button' onClick={openModalLanguage}>!</button></p>
-	<button onClick={props.subLanguages}>-</button>
+	<button onClick={props.subLanguages}>&minus;</button>
 	<input  type="text" 
 		onChange={props.setLanguagesInput}
 		name="wPLanguages"

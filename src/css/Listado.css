@@ -4,3 +4,72 @@
 	height: 100vh;
 	margin: 0;
 }
+
+.botonera-container {
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: 1rem;
+}
+
+.botonera-container button {
+	background-color: #95a6b3;
+	border-radius: 15px;
+	border: none;
+	color: rgb(218, 225, 236);
+	width: 90%;
+	height: 2.5rem;
+	text-align: center;
+	font-size: 1rem;
+	font-weight: bolder;
+	letter-spacing: .07rem;
+	margin: .4rem auto;
+	text-align: center;
+	font-family: 'Chivo', sans-serif;
+}
+
+.botonera-container button:hover{
+	background-color: #c3c9cf;
+}
+
+.buscador {
+	margin-top: 1rem;
+	display: flex;
+}
+
+.buscador input{
+	border: none;
+	color: #9a9ea2;
+	border-radius: 15px;
+	font-weight: bold;
+	width: 85%;
+	height: 2.2rem;
+	padding-left: 1rem;
+	margin: .4rem auto;
+	text-indent: 1.8rem;
+}
+
+.buscador input::placeholder { 
+	color: #d2dde8;
+	opacity: 1;
+	font-weight: 600;
+	text-indent: 0;
+}
+
+.presupuesto-card {
+	width: 85%;
+	background-color: white;
+	border-radius: 15px;
+	padding: .25rem;
+	margin: .75rem auto;
+}
+
+.presupuesto-card p{
+	font-size: .95rem;
+	line-height: .6rem;
+	margin: .75rem;
+	color: #9a9ea2;
+}
+
+.presupuesto-card p span{
+	color: #696c6e;
+}

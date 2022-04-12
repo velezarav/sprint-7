@@ -17,10 +17,19 @@ export default function Presupuesto() {
     total: 0
   })
 
-  const [listado, setListado] = useState([]);
+  const [listado, setListado] = useState([{
+    id: 0,
+    client: "Madonna",
+    webPage: true,
+    wPLanguages: 3,
+    wPQuantity: 2,
+    consultingSEO: true,
+    adsCampaign: true,
+    total: 0
+  }]);
   
 //USEEFFECT - LOCAL STORAGE
- /* useEffect(() => {
+  useEffect(() => {
     const data = localStorage.getItem('quote');
     if (data) {
       setQuote(JSON.parse(data))
@@ -29,7 +38,7 @@ export default function Presupuesto() {
 
   useEffect(() => {
     localStorage.setItem('quote', JSON.stringify(quote))
-  });  */
+  }); 
 
   // SELECCIONAR SERVICIOS
   function handleChange(e){
@@ -39,30 +48,17 @@ export default function Presupuesto() {
       [name]: type === "checkbox" ? checked : value
     }))
     totales()
-
   }
 
   //CALCULAR TOTALES
-
   function totales(){ 
-   /*  const webPageTotal = quote.webPage ? 500 + (quote.wPQuantity > 1 || quote.wPLanguages > 1 ? quote.wPQuantity * quote.wPLanguages * 30 : 0) : 0;
-    const SEOTotal = quote.consultingSEO ? 300 : 0;
-    const adsTotal = quote.adsCampaign ? 200 : 0;
-    const totalSum = w */
-
     setQuote(prevQuote => ({
       ...prevQuote,
       total: (prevQuote.consultingSEO ? 300 : 0) + (prevQuote.adsCampaign ? 200 : 0) + (prevQuote.webPage ? 500 + (prevQuote.wPQuantity > 1 || prevQuote.wPLanguages > 1 ? prevQuote.wPQuantity * prevQuote.wPLanguages * 30 : 0) : 0)
     }))
   }
   
-
   // SELECCIONAR CANTIDAD E IDIOMAS
-  function changeQuote(type, id) {
-    const newQuote = {...quote}
-    newQuote[type] = id;
-  }
-
   function subQuantity() {
     setQuote(prevquote => ({
       ...prevquote,
@@ -80,9 +76,11 @@ export default function Presupuesto() {
   }
 
   function setQuantityInput(e) {
+    let value = parseInt(e.target.value);
+    let realValue = (Number.isNaN(value) ? 1 : value);
     setQuote(prevquote => ({
       ...prevquote,
-      wPQuantity: parseInt(e.target.value)
+      wPQuantity: realValue
     }))
     totales();
   }
@@ -104,9 +102,11 @@ export default function Presupuesto() {
   }
 
   function setLanguagesInput(e) {
+    let value = parseInt(e.target.value);
+    let realValue = (Number.isNaN(value) ? 1 : value);
     setQuote(prevquote => ({
       ...prevquote,
-      wPLanguages: parseInt(e.target.value)
+      wPLanguages: realValue
     }))
     totales();
 }
@@ -117,13 +117,11 @@ function submitQuote(e) {
   const date = new Date();
   const numero = listado.length + 1;
 
-  setQuote(prevquote => ({
-    ...prevquote,
-    id: 9,
-    date: date
-  }))
+  setQuote(prevquote => {
+    prevquote.date = date;
+    prevquote.id = numero
+  })
   
-console.log('this',quote)
   setListado(prevListado => [...prevListado, quote])
 
   setQuote({
@@ -188,10 +186,10 @@ console.log(listado)
           <br />
           <input 
             type="text"
-            placeholder='Nombre y Apellido'
+            placeholder='Tu nombre aquí...'
             onChange={handleChange}
             name='client'
-            defaultValue={quote.client}
+            value={quote.client}
             className='client-name'
           />
           <br />
@@ -200,7 +198,7 @@ console.log(listado)
         </div>
     </div>
       </div>
-      <Listado />
+      <Listado className='listado-container' listado={listado} />
     </div>
     
     
