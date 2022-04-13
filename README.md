@@ -1,4 +1,4 @@
-#SPRINT 6 - IT ACADEMY - REACT
+# SPRINT 6 - IT ACADEMY - REACT
 
 ## Objetivos generales
 En esta entrega realizaremos una aplicación para calcular el **presupuesto de una página web**, añadiendo más interacciones con el usuario que en la práctica anterior.
