@@ -1,14 +1,18 @@
 .listado {
 	background-color: #A5B3C2;
 	width: 100%;
-	height: 100vh;
+	height: 100%;
 	margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .botonera-container {
 	display: flex;
-	flex-wrap: wrap;
-	margin-top: 1rem;
+	flex-direction: column;
+	margin: 1rem auto;
+  width: 90%;
 }
 
 .botonera-container button {
@@ -16,7 +20,7 @@
 	border-radius: 15px;
 	border: none;
 	color: rgb(218, 225, 236);
-	width: 90%;
+	width: 100%;
 	height: 2.5rem;
 	text-align: center;
 	font-size: 1rem;
@@ -32,27 +36,55 @@
 }
 
 .buscador {
-	margin-top: 1rem;
-	display: flex;
+	margin: .4rem auto;
+  width: 85%;
+}
+
+.container-buscador {
+  display: flex;
+  background-color: white;
+  border-radius: 15px;
+  height: 2.8rem;
+}
+.container-buscador label{
+  margin-left: 1rem;
+  margin-top: .5rem;
 }
 
 .buscador input{
+  background: none;
 	border: none;
 	color: #9a9ea2;
 	border-radius: 15px;
 	font-weight: bold;
-	width: 85%;
+	width: 100%;
 	height: 2.2rem;
-	padding-left: 1rem;
 	margin: .4rem auto;
-	text-indent: 1.8rem;
+	text-indent: 2.8rem;
 }
 
 .buscador input::placeholder { 
 	color: #d2dde8;
 	opacity: 1;
 	font-weight: 600;
-	text-indent: 0;
+	text-indent: 1rem;
+}
+
+.container-presupuestos {
+	margin-top: 1rem;
+	width: 99%;
+  max-height: 35em;
+  overflow-y: auto;
+}
+
+.container-presupuestos::-webkit-scrollbar {
+  background-color: #A5B3C2;
+  width: 10px;
+}
+
+.container-presupuestos::-webkit-scrollbar-thumb {
+  background-color:  #d2dde8;
+  border-radius: 10px;
 }
 
 .presupuesto-card {
@@ -65,11 +97,21 @@
 
 .presupuesto-card p{
 	font-size: .95rem;
-	line-height: .6rem;
-	margin: .75rem;
+	margin: 0.25rem .75rem;
 	color: #9a9ea2;
 }
 
 .presupuesto-card p span{
-	color: #696c6e;
+	color: #78848c;
+}
+
+.presupuesto-card .fecha {
+  font-size: .6rem;
+  margin-left: 70%;
+  margin-bottom: 1rem;
+  color: #82878a;
+}
+
+.presupuesto-card p:nth-child(1){
+  margin-top: 1rem;
 }

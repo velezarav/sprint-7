@@ -17,7 +17,7 @@ export default function Presupuesto() {
     total: 0
   })
 
-  const [listado, setListado] = useState([{
+  const [listado, setListado] = useState([/* {
     id: 0,
     client: "Madonna",
     webPage: true,
@@ -26,7 +26,52 @@ export default function Presupuesto() {
     consultingSEO: true,
     adsCampaign: true,
     total: 0
-  }]);
+  }, {
+    id: 0,
+    client: "Madonna",
+    webPage: true,
+    wPLanguages: 3,
+    wPQuantity: 2,
+    consultingSEO: true,
+    adsCampaign: true,
+    total: 0
+  }, {
+    id: 0,
+    client: "Madonna",
+    webPage: true,
+    wPLanguages: 3,
+    wPQuantity: 2,
+    consultingSEO: true,
+    adsCampaign: true,
+    total: 0
+  }, {
+    id: 0,
+    client: "Madonna",
+    webPage: true,
+    wPLanguages: 3,
+    wPQuantity: 2,
+    consultingSEO: true,
+    adsCampaign: true,
+    total: 0
+  }, {
+    id: 0,
+    client: "Madonna",
+    webPage: true,
+    wPLanguages: 3,
+    wPQuantity: 2,
+    consultingSEO: true,
+    adsCampaign: true,
+    total: 0
+  }, {
+    id: 0,
+    client: "Madonna",
+    webPage: true,
+    wPLanguages: 3,
+    wPQuantity: 2,
+    consultingSEO: true,
+    adsCampaign: true,
+    total: 0
+  } */]);
   
 //USEEFFECT - LOCAL STORAGE
   useEffect(() => {
@@ -34,10 +79,15 @@ export default function Presupuesto() {
     if (data) {
       setQuote(JSON.parse(data))
     }
+    const data2 = localStorage.getItem('listado');
+    if (data2) {
+      setListado(JSON.parse(data2))
+    }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('quote', JSON.stringify(quote))
+    localStorage.setItem('quote', JSON.stringify(quote));
+    localStorage.setItem('listado', JSON.stringify(listado))
   }); 
 
   // SELECCIONAR SERVICIOS
@@ -118,7 +168,7 @@ function submitQuote(e) {
   const numero = listado.length + 1;
 
   setQuote(prevquote => {
-    prevquote.date = date;
+    prevquote.date = date.toLocaleString('es-ES');
     prevquote.id = numero
   })
   
@@ -134,6 +184,7 @@ function submitQuote(e) {
     adsCampaign: false,
     total: 0
   })
+  document.location.reload(true)
 }
 
 console.log(quote)
@@ -200,7 +251,5 @@ console.log(listado)
       </div>
       <Listado className='listado-container' listado={listado} />
     </div>
-    
-    
   )
 }
